@@ -1,0 +1,4 @@
+baseURL = "https://jancat.github.io/"
+languageCode = "zh-CN"
+title = "君临"
+theme = "ananke"
