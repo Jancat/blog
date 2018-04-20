@@ -1,21 +1,13 @@
 +++
 comment = false
-date = "2017-08-20T21:38:52+08:00"
-lastmod = "2017-08-28T21:41:52+08:00"
-mathjax = false
-title = "About"
-weight = 50
+date = 2018-04-20T09:10:24Z
+title = "关于"
 +++
 
-Hugo is a static site engine written in Go.
+![background](/images/post/about/about-background.jpg)
 
+游走于文艺边缘，心中常住着持剑的少年
 
-It makes use of a variety of open source projects including:
+向往二次元，正因无法企及
 
-* [Cobra](https://github.com/spf13/cobra)
-* [Viper](https://github.com/spf13/viper)
-* [J Walter Weatherman](https://github.com/spf13/jWalterWeatherman)
-* [Cast](https://github.com/spf13/cast)
-
-Learn more and contribute on [GitHub](https://github.com/gohugoio).
-
+喜欢Coding带来的成就感
