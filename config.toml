@@ -2,6 +2,7 @@ baseURL = "https://jancat.github.io/"
 title = "键落云起"
 enableRobotsTXT = true
 enableEmoji = true
+enableGitInfo = true
 theme = "jane"
 
 # language support # en / zh-cn / other... translations present in i18n/

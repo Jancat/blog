@@ -1,7 +1,6 @@
 +++
 title = "使用Node和Typescript爬取花瓣网图片"
 date = 2018-04-19T04:03:44.000Z
-lastmod = '2018-04-20 17:02:34'
 categories = ["Node", "TypeScript"]
 tags = ["花瓣", "爬虫", "huaban", "crawler", "Node", "TypeScript"]
 +++
