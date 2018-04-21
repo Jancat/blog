@@ -2,6 +2,7 @@
 comment = false
 date = 2018-04-20T09:10:24Z
 title = "关于"
+contentCopyright = false
 +++
 
 ![background](/images/post/about/about-background.jpg)
