@@ -182,7 +182,7 @@ wfl: 1
     ```
 
 1. 根据画板ID获取 `board` 数据。为了使用 ES7 的 `async/await`，引入了 `promisify` 的 request 库
-    ```ts
+    ```typescript
     import rp from 'request-promise'
 
     async function getBoardInfo(boardId: string): Promise<IBoard> {

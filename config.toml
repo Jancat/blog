@@ -5,6 +5,12 @@ enableEmoji = true
 enableGitInfo = true
 theme = "jane"
 
+# Highlight options. See https://gohugo.io/content-management/syntax-highlighting/
+PygmentsCodeFences = true # Enable syntax highlighting with GitHub flavoured code fences
+PygmentsUseClasses = true # Use CSS classes to format highlighted code
+PygmentsCodefencesGuessSyntax = false
+PygmentsOptions = "linenos=table"
+
 # language support # en / zh-cn / other... translations present in i18n/
 languageCode = "zh"
 defaultContentLanguage = "zh-cn"           # Default language to use
@@ -79,7 +85,7 @@ copyright = ""            # default: author.name ↓        # 默认为下面配
   fancybox = true           # see https://github.com/fancyapps/fancybox                 # 是否启用fancybox（图片可点击）
   bootcdn = false           # In china. @Deprecated: use [params.publicCDN]             # 是否使用bootcdn(@Deprecated: 请使用[params.publicCDN])
   mathjax = false           # see https://www.mathjax.org/                              # 是否使用mathjax（数学公式）
-  contentCopyright = "原创文章，如需转载请注明文章作者和出处。谢谢！"
+  contentCopyright = '<a target="_blank" rel="license noopener external nofollow" href="https://creativecommons.org/licenses/by/4.0/deed.zh" >署名 4.0 国际</a>'
 
   changyanAppid = ""        # Changyan app id             # 畅言
   changyanAppkey = ""       # Changyan app key
