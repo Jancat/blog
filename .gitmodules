@@ -1,6 +1,6 @@
 [submodule "public"]
 	path = public
-	url = git@github.com:Jancat/Jancat.github.io.git
+	url = https://github.com/Jancat/Jancat.github.io.git
 	branch = master
 [submodule "themes/jane"]
 	path = themes/jane
