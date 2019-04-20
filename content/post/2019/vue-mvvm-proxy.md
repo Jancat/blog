@@ -1,5 +1,5 @@
 +++
-title = 'Vue MVVM 实现 （Proxy 篇）'
+title = 'Vue MVVM 实现（Proxy 篇）'
 date = 2019-04-20T10:32:43+08:00
 categories = ["Vue"]
 tags = ["vue", "mvvm"]

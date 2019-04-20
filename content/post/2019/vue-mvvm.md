@@ -1,5 +1,5 @@
 +++
-title = 'Vue MVVM (defineProperty) 实现'
+title = 'Vue MVVM 实现（defineProperty 篇）'
 date = "2019-04-19T23:33:14+08:00"
 lastmod = 2019-04-20T12:16:14+08:00
 categories = ["Vue"]
