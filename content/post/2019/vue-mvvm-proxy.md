@@ -3,7 +3,6 @@ title = 'Vue MVVM 实现 （Proxy 篇）'
 date = 2019-04-20T10:32:43+08:00
 categories = ["Vue"]
 tags = ["vue", "mvvm"]
-isCJKLanguage = true
 +++
 
 [上一篇](https://jancat.github.io/post/2019/vue-mvvm/)实现 MVVM **数据劫持**是基于 ES5 的 `Object.defineProperty()` API，新的轮子将使用 `Proxy` 替代，follow Vue 3；在原有轮子的基础上做些改造，适配 `Proxy`。

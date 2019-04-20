@@ -4,7 +4,6 @@ date = "2019-04-19T23:33:14+08:00"
 lastmod = 2019-04-20T12:16:14+08:00
 categories = ["Vue"]
 tags = ["vue", "mvvm"]
-isCJKLanguage = true
 +++
 
 ![Vue MVVM Poster](https://cn.vuejs.org/images/data.png)
