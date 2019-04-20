@@ -1,14 +1,15 @@
 +++
 title = 'Vue MVVM (defineProperty) 实现'
-date = 2019-04-19T23:33:14+08:00
+date = "2019-04-19T23:33:14+08:00"
+lastmod = 2019-04-20T12:16:14+08:00
 categories = ["Vue"]
 tags = ["vue", "mvvm"]
+isCJKLanguage = true
 +++
 
 ![Vue MVVM Poster](https://cn.vuejs.org/images/data.png)
 
 <!--more-->
-
 
 
 ## Vue 响应式原理
@@ -45,9 +46,9 @@ Vue 2.x 的响应式原理是通过 **数据劫持** 和 **发布-订阅**模式
 
 ## MVVM 原理实现
 
-为了理解 Vue MVVM 内部原理，自己造一个简单的 MVVM 伪轮子，能够实现模板解析、数据响应式等基本功能，忽略细节和明显的 bug。同时，为了更容易理解和更好的 coding 体验，使用现代浏览器支持的 ES6+ 语法实现，划分各个模块。
+为了理解 Vue MVVM 内部原理，这里造一个简单的 MVVM 伪轮子，能够实现模板解析、数据响应式等基本功能，忽略细节和明显的 bug。同时，为了更容易理解和更好的 coding 体验，使用现代浏览器支持的 ES6+ 语法实现，划分各个模块。
 
-这个轮子中借助 ES5 的 `Object.defineProperty()` 实现数据劫持；在下个轮子中，将会使用 ES6 的 `Proxy` 实现，这也是 Vue 3 的计划之一。
+这个轮子中借助 ES5 的 `Object.defineProperty()` 实现数据劫持；在[下一篇](https://jancat.github.io/post/2019/vue-mvvm-proxy/)中，将会使用 ES6 的 `Proxy` 实现，这也是 Vue 3 的计划之一。
 
 效果：
 
@@ -57,9 +58,11 @@ Vue 2.x 的响应式原理是通过 **数据劫持** 和 **发布-订阅**模式
 
 ### index.html
 
+<iframe src="https://codesandbox.io/embed/q7j083qmyq?autoresize=1&fontsize=16&hidenavigation=1&view=editor" title="vue-mvvm" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+
 入口文件，创建渲染模板，通过 `v-model` 指令双向绑定 `data`，同理 `v-class`、`v-text`、`v-html` 指令插入 `data` 值，`v-on:click` 绑定点击事件监听器 `method`。
 
-在 `module script` 中导入并实例化 MVVM，定义 `el`、`data`、`computed`、`methods`、`$watch`
+在 `module script` 中导入并实例化 MVVM，定义 `el`、`data`、`computed`、`methods`、`$watch` options。
 
 
 
@@ -67,15 +70,78 @@ Vue 2.x 的响应式原理是通过 **数据劫持** 和 **发布-订阅**模式
 
 ### MVVM 模块
 
-<iframe src="https://codesandbox.io/embed/q7j083qmyq?autoresize=1&fontsize=16&hidenavigation=1&view=editor" title="vue-mvvm" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+<iframe src="https://codesandbox.io/embed/q7j083qmyq?autoresize=1&fontsize=16&hidenavigation=1&module=%2FMVVM.js&view=editor" title="vue-mvvm" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
 
 MVVM 构造函数中把 `options.data`、`options.computed`、`options.methods` 中的属性全部绑定到 MVVM `this` 上，这样就能在 `methods` 中通过 `this.xxx` 代理到各自的 key 中，暂时不考虑重复的 key。
 
-初始化 `this` 代理后，调用 `Observer` 劫持 `data` 中的全部属性。
+```js
+// data 代理，实现 vm.xxx, this.xxx -> vm.$data.xxx
+_proxyData() {
+  const { $data } = this
+  for (const key in $data) {
+    Object.defineProperty(this, key, {
+      configurable: false,
+      enumerable: true,
+      get() {
+        return $data[key]
+      },
+      set(newVal) {
+        $data[key] = newVal
+      },
+    })
+  }
+}
 
-最后，调用 `Compiler` 解析模板。
+// computed 属性代理，实现 vm.xxx, this.xxx -> this.$options.computed.xxx
+_proxyComputed() {
+  const computed = this.$options.computed
+  if (typeof computed === 'object') {
+    for (const key in computed) {
+      Object.defineProperty(this, key, {
+        get:
+        typeof computed[key] === 'function'
+        ? computed[key]
+        : computed[key].get,
+        set: function() {},
+      })
+    }
+  }
+}
 
-MVVM 实例也提供了 `$watch` 方法，调用 `Watcher` 监听指定属性的变化。
+// 绑定 options.methods 的方法到 this 上
+_bindMethods() {
+  const methods = this.$options.methods
+  if (typeof methods === 'object') {
+    for (const key in methods) {
+      Object.defineProperty(
+        this,
+        key,
+        Object.getOwnPropertyDescriptor(methods, key),
+      )
+    }
+  }
+}
+```
+
+初始化 `this` 代理后，调用 `Observer` 劫持 `data` 中的全部属性：
+
+```js
+observe(this.$data, this)
+```
+
+最后，调用 `Compiler` 解析模板：
+
+```js
+this.$compile = new Compiler(options.el || document.body, this)
+```
+
+MVVM 实例也提供了 `$watch` 方法，调用 `Watcher` 监听指定属性的变化：
+
+```js
+$watch(key, cb) {
+  new Watcher(this, key, cb)
+}
+```
 
 
 
@@ -83,9 +149,9 @@ MVVM 实例也提供了 `$watch` 方法，调用 `Watcher` 监听指定属性的
 
 <iframe src="https://codesandbox.io/embed/q7j083qmyq?autoresize=1&fontsize=16&hidenavigation=1&module=%2FDep.js&view=editor" title="vue-mvvm" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
 
-**Dep** 模块作为**发布-订阅**模式的订阅中心，每个 `data` 中的属性(包括嵌套) 都绑定了一个 Dep 实例(通过闭包引用)，提供添加、通知、移除订阅者的接口。
+**Dep** 模块作为**发布-订阅**模式的订阅中心，每个 `data` 中的属性(包括嵌套) 都绑定了一个 `Dep` 实例(通过闭包引用)，提供添加、通知、移除订阅者的接口。
 
-一个某属性绑定的 Dep 实例可以包含多个订阅该属性的 Watcher 实例，属性变化后，将通知这些 Watcher 实例。
+一个属性绑定的 `Dep` 实例可以包含多个订阅该属性的 `Watcher` 实例，属性变化后，将通知这些 `Watcher` 实例。
 
 
 
@@ -294,7 +360,16 @@ const updater = {
 
 
 
-（~~不，小孩子才做选择，我全都要~~）
+（~~不，小孩子才做选择，大人全都要~~）
+
+
+
+## 安利
+
+安利一波本文中使用到的工具：
+
+- [CodeSandbox](https://codesandbox.io) : 基于 VSCode 编辑器的 **Cloud IDE**，内置各种流行框架模板。通过 `<iframe>` 提供 **embed** 的项目、代码预览，方便的嵌入文章中，乃展示效果、项目代码的行文利器。
+- [ProcessOn](https://www.processon.com)：在线绘制思维导图、流程图等，UI 美观，效果拔群。不过免费版有文件数量限制。
 
 
 
@@ -303,3 +378,9 @@ const updater = {
 本轮子基于下面的仓库代码改造，感谢！
 
 <https://github.com/DMQ/mvvm>
+
+
+
+------
+
+**兄弟篇**：[Vue MVVM 实现（Proxy 篇）](<https://jancat.github.io/post/2019/vue-mvvm-proxy/>)
