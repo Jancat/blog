@@ -180,8 +180,7 @@ const proxyObject = obj => {
 
 ### 新的模块关系图
 
-![image-20190419211202655](https://ws3.sinaimg.cn/large/006tNc79gy1g2893dkdxlj30xm0u0n18.jpg)
-
+![](https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/blog/20190426164617.png)
 
 
 ## 总结

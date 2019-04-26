@@ -349,8 +349,7 @@ const updater = {
 
 ~~宠着~~，画了个各模块的关系图帮助理解：
 
-![image-20190419115645881](https://ws3.sinaimg.cn/large/006tNc79gy1g27t19vigyj30tq0wd42d.jpg)
-
+![image-20190426164700940](https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/blog/2019-04-26-084701.png)
 
 
 最后，本轮子 GitHub 地址：<https://github.com/Jancat/vue-mvvm>
