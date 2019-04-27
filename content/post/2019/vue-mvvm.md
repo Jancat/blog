@@ -17,7 +17,7 @@ Vue 2.x 的响应式原理是通过 **数据劫持** 和 **发布-订阅**模式
 
 初始化 Vue 实例时内部就会定义数据劫持和创建发布-订阅模式。
 
-![Vue MVVM](https://ws1.sinaimg.cn/large/006tKfTcgy1g1pnu3komuj31z40m0wn6.jpg)
+![Vue MVVM](https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/blog/20190427110242.png)
 
 ### 数据劫持
 
