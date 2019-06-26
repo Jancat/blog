@@ -122,12 +122,7 @@ process.send('Message from worker')
 
 Unix domain socket 实现 IPC 专职负责 workers IPC 代理，虽然自由度更高，能灵活控制 IPC 细节，但相应的会增加开发维护成本。如果只需要简单的 workers IPC ，完全可以让 master 代理，通过 master - worker IPC 提供的 API 快速实现。
 
-```mermaid
-graph TB
-	worker1 -->|send| master
-	master -->|proxy send| worker2
-	master -->|proxy send| worker3
-```
+![](https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/blog/20190627010404.png)
 
 **Egg.js** [进程间通信](https://eggjs.org/zh-cn/core/cluster-and-ipc.html)也介绍了这种方式，如果想要在所有 workers 之间同步，可以通过 **Agent** 来广播，如果想要在指定的 workers 间通信，就通过 master 来转发。
 
